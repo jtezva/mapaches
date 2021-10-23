@@ -29,5 +29,14 @@ class Service {
         $stmt->execute();
         return $dbh->lastInsertId();
     }
+
+    public static function delete($tableName, $id) {
+        $query = 'delete from ' . $tableName . ' where id = :id';
+        $dbh = Connector::getConnection();
+        $stmt = $dbh->prepare($query);
+        $stmt->bindValue('id', $id);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
 }
 ?>

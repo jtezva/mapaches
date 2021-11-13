@@ -38,5 +38,26 @@ class Service {
         $stmt->execute();
         return $stmt->rowCount();
     }
+
+    public static function updateCategory($id, $description) {
+        $query = 'update category set description = :description where id = :id';
+        $dbh = Connector::getConnection();
+        $stmt = $dbh->prepare($query);
+        $stmt->bindValue('description', $description);
+        $stmt->bindValue('id', $id);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
+
+    public static function updateCandidate($id, $name, $photo) {
+        $query = 'update candidate set name = :name, photo = :photo where id = :id';
+        $dbh = Connector::getConnection();
+        $stmt = $dbh->prepare($query);
+        $stmt->bindValue('name', $name);
+        $stmt->bindValue('photo', $photo);
+        $stmt->bindValue('id', $id);
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
 }
 ?>

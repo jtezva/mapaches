@@ -59,5 +59,21 @@ class Service {
         $stmt->execute();
         return $stmt->rowCount();
     }
+
+    public static function findAll($tableName, $pageNumber, $pageSize){
+        $query1 = 'select * from ' . $tableName . ' limit ' . (($pageNumber * $pageSize) - $pageSize) . ',  ' . $pageSize;
+        $query2 = 'select count(1) from ' . $tableName;
+        $dbh = Connector::getConnection();
+        $stmt1 = $dbh->prepare($query1);
+        $stmt2 = $dbh->prepare($query2);
+        $stmt1->execute();
+        $data = $stmt1->fetchAll(PDO::FETCH_ASSOC);
+        $stmt2->execute();
+        $count = $stmt2->fetch()[0];
+        return (object) array(
+            'list' => $data,
+            'total' => $count
+        );
+    }
 }
 ?>
